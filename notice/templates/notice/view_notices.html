@@ -1,0 +1,24 @@
+<h2>View Notices</h2>
+
+<form method="get">
+    <select name="location">
+        {% for loc in locations %}
+            <option value="{{ loc.id }}">{{ loc.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Filter</button>
+</form>
+
+<ul>
+    {% if notices %}
+        {% for notice in notices %}
+            <li>
+                <strong>{{ notice.title }}</strong><br>
+                {{ notice.description }}<br>
+                <a href="{{ notice.document.url }}">Download</a>
+            </li>
+        {% endfor %}
+    {% else %}
+        <li>No notices available.</li>
+    {% endif %}
+</ul>
