@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'users',
     'notice',
 ]
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/upload/'
 LOGOUT_REDIRECT_URL = '/users/login/'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -54,6 +54,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'geNotice.urls'
 import os
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

@@ -11,8 +11,6 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             profile = user.profile
-            profile.role = form.cleaned_data['role']
-            profile.location = form.cleaned_data['location']
             profile.save()
             return redirect('login')
     else:

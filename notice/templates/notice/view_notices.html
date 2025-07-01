@@ -1,24 +1,143 @@
-<h2>View Notices</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>View Notices</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #e6f0ff;
+            margin: 0;
+            padding: 40px 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+        h2 {
+            margin-top: 0;
+            color: #003366;
+            font-weight: 600;
+            font-size: 28px;
+            margin-bottom: 25px;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        select {
+            padding: 8px 12px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 1px solid #bbb;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        select:focus {
+            border-color: #3399ff;
+            box-shadow: 0 0 5px #a3c1ff;
+        }
+        button.filter-btn {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 10px 18px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-left: 10px;
+            transition: background-color 0.3s ease;
+        }
+        button.filter-btn:hover {
+            background-color: #0056b3;
+        }
+        button.upload-btn {
+            background-color: #5bc0de;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        button.upload-btn:hover {
+            background-color: #31b0d5;
+        }
+        ul.notice-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 0;
+        }
+        ul.notice-list li {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s ease;
+        }
+        ul.notice-list li:hover {
+            background-color: #f0f7ff;
+        }
+        ul.notice-list strong {
+            color: #0056b3;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        ul.notice-list a {
+            color: #3399ff;
+            text-decoration: none;
+        }
+        ul.notice-list a:hover {
+            text-decoration: underline;
+        }
+        .no-notices {
+            font-style: italic;
+            color: #888;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>View Notices</h2>
 
-<form method="get">
-    <select name="location">
-        {% for loc in locations %}
-            <option value="{{ loc.id }}">{{ loc.name }}</option>
-        {% endfor %}
-    </select>
-    <button type="submit">Filter</button>
-</form>
+        <div class="top-bar">
+            <form method="get" style="display: flex; align-items: center; margin: 0;">
+                <select name="location" aria-label="Filter notices by location">
+                    {% for loc in locations %}
+                        <option value="{{ loc.id }}" {% if loc.id|stringformat:"s" == request.GET.location %}selected{% endif %}>{{ loc.name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="filter-btn">Filter</button>
+            </form>
 
-<ul>
-    {% if notices %}
-        {% for notice in notices %}
-            <li>
-                <strong>{{ notice.title }}</strong><br>
-                {{ notice.description }}<br>
-                <a href="{{ notice.document.url }}">Download</a>
-            </li>
-        {% endfor %}
-    {% else %}
-        <li>No notices available.</li>
-    {% endif %}
-</ul>
+            <form action="{% url 'login' %}" method="get" style="margin: 0;">
+                <button type="submit" class="upload-btn">UploadDocs</button>
+            </form>
+        </div>
+
+        <ul class="notice-list">
+            {% if notices and notices.exists %}
+                {% for notice in notices %}
+                    <li>
+                        <strong>{{ notice.title }}</strong><br>
+                        {{ notice.description }}<br>
+                        <a href="{{ notice.document.url }}" target="_blank" rel="noopener noreferrer">Download</a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li class="no-notices">No notices available.</li>
+            {% endif %}
+        </ul>
+    </div>
+</body>
+</html>

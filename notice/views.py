@@ -5,9 +5,6 @@ from .forms import NoticeForm
 
 @login_required
 def upload_notice(request):
-    if request.user.profile.role != 'uploader':
-        return redirect('view_notices')
-
     location = request.user.profile.location
 
     if request.method == 'POST':
